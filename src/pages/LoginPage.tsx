@@ -1,9 +1,10 @@
 import { ChangeEvent, FunctionComponent, useState } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { isEmptyString } from "../utils/isEmptyString";
-import { useLoginMutation } from "../redux/apiSlice";
+import { usePostUserDataMutation } from "../services/dummyjsonApiSlice";
 import { useNavigate } from "react-router-dom";
 import { TUGRoutes } from "../TUGRoutes";
+import TUGLoading from "../components/TUGLoading";
 
 interface LoginPageProps
 {
@@ -18,18 +19,17 @@ interface LoginPageState
 
 const LoginPage: FunctionComponent<LoginPageProps> = () =>
 {
-	const navigate = useNavigate();
-
 	const [inputValue, setInputValue] = useState<LoginPageState>({
 		username: "",
 		password: "",
 	});
-
 	const [validationError, setValidationError] = useState<LoginPageState | null>({
 		username: "",
 		password: "",
 	});
-	const [login, { isLoading, isSuccess }] = useLoginMutation();
+
+	const [postUserData, { data, isLoading, isSuccess }] = usePostUserDataMutation();
+	const navigate = useNavigate();
 
 	const submitHandler = async (e: ChangeEvent<HTMLFormElement>) =>
 	{
@@ -38,14 +38,14 @@ const LoginPage: FunctionComponent<LoginPageProps> = () =>
 		try
 		{
 			const { username, password } = inputValue;
-			await login({ username, password }).unwrap();
+			await postUserData({ username, password }).unwrap();
 			if (isSuccess)
-			{
 				navigate(TUGRoutes.Dashboard);
-			}
+			console.log(data);
+
 		} catch (error)
 		{
-			console.error("Login failed", error);
+			console.log("Error !!!", error);
 		}
 	}
 
@@ -69,6 +69,8 @@ const LoginPage: FunctionComponent<LoginPageProps> = () =>
 		}));
 	}
 
+	if (isLoading)
+		return <TUGLoading />
 
 	return (
 		<>
