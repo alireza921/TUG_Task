@@ -5,6 +5,9 @@ import { usePostUserDataMutation } from "../services/dummyjsonApiSlice";
 import { useNavigate } from "react-router-dom";
 import { TUGRoutes } from "../TUGRoutes";
 import TUGLoading from "../components/TUGLoading";
+import { useDispatch } from "react-redux";
+import { login } from "../features/auth/authSlice";
+import toast from "react-hot-toast";
 
 interface LoginPageProps
 {
@@ -27,26 +30,23 @@ const LoginPage: FunctionComponent<LoginPageProps> = () =>
 		username: "",
 		password: "",
 	});
-
-	const [postUserData, { data, isLoading, isSuccess }] = usePostUserDataMutation();
+	const [postUserData, { isLoading }] = usePostUserDataMutation();
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const submitHandler = async (e: ChangeEvent<HTMLFormElement>) =>
 	{
 		e.preventDefault();
 		formValidation();
-		try
-		{
-			const { username, password } = inputValue;
-			await postUserData({ username, password }).unwrap();
-			if (isSuccess)
+		const { username, password } = inputValue;
+		postUserData({ username, password, expiresInMins: 120 }).unwrap()
+			.then((response) =>
+			{
+				toast.success("login successful");
+				dispatch(login({ user: response }));
 				navigate(TUGRoutes.Dashboard);
-			console.log(data);
-
-		} catch (error)
-		{
-			console.log("Error !!!", error);
-		}
+			})
+			.catch(() => toast.error("Login Faild"));
 	}
 
 	function formValidation() 

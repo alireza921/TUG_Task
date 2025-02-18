@@ -6,6 +6,8 @@ import HomePage from "./pages/HomePage";
 import DashboardPage from "./pages/DashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoginPage from "./pages/LoginPage";
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
 
 interface RouterProps
 {
@@ -14,7 +16,8 @@ interface RouterProps
 
 const Router: FunctionComponent<RouterProps> = () =>
 {
-	const isAuth: boolean = false; //fix it 
+	const isAuth: boolean = useSelector((state: RootState) => state.auth.isAuth);
+
 	if (isAuth)
 		return (
 			<Routes>
