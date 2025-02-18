@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import Router from './Router';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+
+//CSS
 import './index.css';
 
 const root = ReactDOM.createRoot(
@@ -10,8 +14,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<Router />
-		</BrowserRouter>
+		<Provider store={store}>
+			<BrowserRouter>
+				<Router />
+			</BrowserRouter>
+		</Provider>
 	</React.StrictMode>
 );

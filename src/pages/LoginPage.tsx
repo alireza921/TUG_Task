@@ -1,6 +1,9 @@
 import { ChangeEvent, FunctionComponent, useState } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { isEmptyString } from "../utils/isEmptyString";
+import { useLoginMutation } from "../redux/apiSlice";
+import { useNavigate } from "react-router-dom";
+import { TUGRoutes } from "../TUGRoutes";
 
 interface LoginPageProps
 {
@@ -9,37 +12,51 @@ interface LoginPageProps
 
 interface LoginPageState
 {
-	email: string;
+	username: string;
 	password: string;
 }
 
 const LoginPage: FunctionComponent<LoginPageProps> = () =>
 {
+	const navigate = useNavigate();
+
 	const [inputValue, setInputValue] = useState<LoginPageState>({
-		email: "",
+		username: "",
 		password: "",
 	});
 
-	const [error, setError] = useState<LoginPageState | null>({
-		email: "",
+	const [validationError, setValidationError] = useState<LoginPageState | null>({
+		username: "",
 		password: "",
 	});
+	const [login, { isLoading, isSuccess }] = useLoginMutation();
 
-	const submitHandler = (e: ChangeEvent<HTMLFormElement>) =>
+	const submitHandler = async (e: ChangeEvent<HTMLFormElement>) =>
 	{
 		e.preventDefault();
 		formValidation();
+		try
+		{
+			const { username, password } = inputValue;
+			await login({ username, password }).unwrap();
+			if (isSuccess)
+			{
+				navigate(TUGRoutes.Dashboard);
+			}
+		} catch (error)
+		{
+			console.error("Login failed", error);
+		}
 	}
 
 	function formValidation() 
 	{
-		const isEmailEmpty = isEmptyString(inputValue.email);
+		const isEmailEmpty = isEmptyString(inputValue.username);
 		const isPasswordEmpty = isEmptyString(inputValue.password);
-
-		setError((prevState) =>
+		setValidationError((prevState) =>
 		({
 			...prevState,
-			email: isEmailEmpty ? "Email is Required" : "",
+			username: isEmailEmpty ? "Username  is Required" : "",
 			password: isPasswordEmpty ? "Password is Required" : ""
 		}));
 	}
@@ -63,14 +80,14 @@ const LoginPage: FunctionComponent<LoginPageProps> = () =>
 						style={{ marginBottom: "12px" }}
 					>
 						<TextField
-							label="Email"
+							label="Username"
 							fullWidth
-							type="email"
-							name="email"
-							value={inputValue.email}
+							type="string"
+							name="username"
+							value={inputValue.username}
 							margin="normal"
-							error={!!error?.email}
-							helperText={error?.email}
+							error={!!validationError?.username}
+							helperText={validationError?.username}
 							onChange={setInputValues}
 						/>
 						<TextField
@@ -80,8 +97,8 @@ const LoginPage: FunctionComponent<LoginPageProps> = () =>
 							name="password"
 							value={inputValue.password}
 							margin="normal"
-							error={!!error?.password}
-							helperText={error?.password}
+							error={!!validationError?.password}
+							helperText={validationError?.password}
 							onChange={setInputValues}
 						/>
 						<Button
@@ -89,6 +106,7 @@ const LoginPage: FunctionComponent<LoginPageProps> = () =>
 							fullWidth
 							variant="contained"
 							sx={{ mt: 2 }}
+							disabled={isLoading}
 						>
 							Login
 						</Button>
