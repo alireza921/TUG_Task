@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
 interface LoginPageProps
@@ -6,8 +6,28 @@ interface LoginPageProps
 
 }
 
+
+interface LoginPageStaet
+{
+	email: string;
+	password: string;
+}
+
 const LoginPage: FunctionComponent<LoginPageProps> = () =>
 {
+	const [state, setState] = useState<LoginPageStaet>({
+		email: "",
+		password: ""
+	});
+
+	const setInputValues = (e: React.ChangeEvent<HTMLInputElement>) =>
+	{
+		const { name, value } = e.target;
+		setState((prevState) => ({
+			...prevState, [name]: value
+		}));
+	}
+
 	return (
 		<>
 			<Container maxWidth="xs">
@@ -17,15 +37,20 @@ const LoginPage: FunctionComponent<LoginPageProps> = () =>
 						<TextField
 							label="Email"
 							fullWidth
+							type="email"
+							name="email"
+							value={state.email}
 							margin="normal"
-							value={"email"}
+							onChange={setInputValues}
 						/>
 						<TextField
 							label="Password"
 							fullWidth
 							type="password"
+							name="password"
+							value={state.password}
 							margin="normal"
-							value={"password"}
+							onChange={setInputValues}
 						/>
 						<Button
 							type="submit"
