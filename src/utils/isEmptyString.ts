@@ -1,0 +1,1 @@
+export const isEmptyString = (string: string | undefined): boolean => string ? (string.trim() === "" ? true : false) : true;
