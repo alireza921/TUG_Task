@@ -12,11 +12,11 @@ export type ProductType =
 		stock: number;
 		brand: string;
 		sku: string;
-		weight: 2,
+		weight: number,
 		dimensions: {
-			width: 23.17,
-			height: 14.43,
-			depth: 28.01
+			width: number,
+			height: number,
+			depth: number,
 		},
 		reviews: ReviewType[];
 	}

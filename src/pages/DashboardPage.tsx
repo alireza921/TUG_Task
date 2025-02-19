@@ -1,4 +1,4 @@
-import { Container, Stack } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import { FunctionComponent } from "react";
 import { useGetProductsDataQuery } from "../services/dummyjsonApiSlice";
 import TUGAvatar from "../components/TUGAvatar";
@@ -8,6 +8,7 @@ import { ProductType } from "../types/ProductType";
 import TUGChart from "../components/TUGChart";
 import { getLimitedData } from "../utils/getLimitedData";
 import TUGReminder from "../components/TUGReminder";
+import TUGTable from "../components/TUGTable";
 
 interface DashboardPageProps
 {
@@ -39,6 +40,9 @@ const DashboardPage: FunctionComponent<DashboardPageProps> = () =>
 					<TUGChart data={productData.products} />
 					<TUGReminder title="Reminder" remindersData={productData.products} />
 				</Stack>
+				<Box>
+					<TUGTable productsData={productData.products} />
+				</Box>
 			</Container>
 		</>
 	);
