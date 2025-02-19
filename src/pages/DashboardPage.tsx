@@ -1,6 +1,6 @@
 import { Avatar, Box, Container, Stack, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
-import { useGetProductsDataQuery, useGetSingleProductDataQuery } from "../services/dummyjsonApiSlice";
+import { useGetProductsDataQuery } from "../services/dummyjsonApiSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import TUGLoading from "../components/TUGLoading";
@@ -16,15 +16,7 @@ interface DashboardPageProps
 const DashboardPage: FunctionComponent<DashboardPageProps> = () =>
 {
 	const userData: UserType | null = useSelector((state: RootState) => state.auth.user);
-	const { data: productsData, isLoading: isLoadingProductsData } = useGetProductsDataQuery("", {
-		selectFromResult: ({ data, isLoading, isError }) => ({
-			data,
-			isLoading,
-			isError
-		})
-	});
-	let product_id: number = 1;
-	const { data: singleProductData, isFetching } = useGetSingleProductDataQuery(product_id);
+	const { data } = useGetProductsDataQuery("");
 
 	return (
 		<>
@@ -36,14 +28,16 @@ const DashboardPage: FunctionComponent<DashboardPageProps> = () =>
 						<Typography variant="subtitle1"> {userData?.lastName} </Typography>
 					</Box>
 				</Box>
+				{/* 				
+				<Typography variant="h3"> {data.limit} </Typography>
+				<Typography variant="h3"> {data.total} </Typography>
+				<Typography variant="h3"> {data.skip} </Typography> */}
+
 				{
-					isLoadingProductsData ? <TUGLoading /> :
+					!data ? <TUGLoading /> :
 						<Stack direction="row" spacing={4}>
 							{
-								productsData?.products?.map((productData: ProductType) =>
-								{
-									<ResultItem product={productData} />
-								})
+								data?.products?.slice(0,2).map((productData: ProductType) => <ResultItem key={productData.id} product={productData} />)
 							}
 						</Stack>
 				}
