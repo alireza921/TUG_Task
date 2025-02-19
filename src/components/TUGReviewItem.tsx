@@ -5,6 +5,7 @@ import TUGNumericCard from "./TUGNumericCard";
 interface TUGReviewItemProps
 {
 	product: ProductType;
+	title?: string;
 }
 
 const TUGReviewItem = (props: TUGReviewItemProps) =>
@@ -20,13 +21,17 @@ const TUGReviewItem = (props: TUGReviewItemProps) =>
 				}}
 			>
 				<Typography variant="subtitle2">
-					{props.product.title}
+					{
+						props.title ? props.title :
+							props.product.title
+					}
 				</Typography>
 
 				<Box
 					sx={{
 						width: '100%',
 						display: 'flex',
+						flexWrap: "wrap",
 						gap: 2,
 					}}
 				>

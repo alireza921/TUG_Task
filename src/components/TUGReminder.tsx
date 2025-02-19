@@ -36,11 +36,11 @@ const TUGReminder = (props: TUGReminderProps) =>
 					}}
 				>
 					{
-						getLimitedReminders.map((review, index: number) => (
+						getLimitedReminders.map((reminder, index: number) => (
 							<Stack key={`TUGReminder_${index}`} display="flex" flexDirection="row" flexWrap="wrap">
 								<TUGNumericCard review={{
-									rating: review.rating,
-									comment: review.brand
+									rating: reminder.rating,
+									comment: reminder.brand
 								}} />
 							</Stack>
 						))

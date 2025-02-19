@@ -34,6 +34,7 @@ const TUGChart = (props: TUGChartProps) =>
 					sx={{
 						width: '100%',
 						display: 'flex',
+						flexWrap:"wrap",
 						gap: 2,
 					}}
 				>
