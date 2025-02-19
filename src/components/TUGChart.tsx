@@ -3,7 +3,7 @@ import { ProductType } from "../types/ProductType";
 import { PieChart } from '@mui/x-charts/PieChart';
 import TUGNumericCard from "./TUGNumericCard";
 import { getLimitedData } from "../utils/getLimitedData";
-import { generateRandomColor } from "../types/generateRandomColor";
+import { generateRandomColor } from "../utils/generateRandomColor";
 
 
 interface TUGChartProps 

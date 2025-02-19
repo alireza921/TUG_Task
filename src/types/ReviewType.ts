@@ -1,4 +1,5 @@
-export type ReviewType = {
+export interface ReviewType
+{
 	rating: number;
 	comment: string;
 }
