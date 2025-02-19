@@ -1,3 +1,5 @@
+import { ReviewType } from "./ReviewType";
+
 export type ProductType =
 	{
 		id: number;
@@ -16,8 +18,5 @@ export type ProductType =
 			height: 14.43,
 			depth: 28.01
 		},
-		reviews: {
-			rating: number;
-			comment: string;
-		}[]
+		reviews: ReviewType[];
 	}
