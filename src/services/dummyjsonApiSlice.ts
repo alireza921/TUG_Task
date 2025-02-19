@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const dummyjsonApiSlice = createApi({
 	reducerPath: "dummyjsonApi",
-	baseQuery: fetchBaseQuery({ baseUrl: "https://dummyjson.com/" }),
+	baseQuery: fetchBaseQuery({
+		baseUrl: "https://dummyjson.com/"
+	}),
 	endpoints: (builder) => ({
 		postUserData: builder.mutation({
 			query: (credentials) => ({
@@ -14,10 +16,13 @@ export const dummyjsonApiSlice = createApi({
 		getUserDate: builder.query({
 			query: () => "/auth/me"
 		}),
-		getDashboardData: builder.query({
+		getProductsData: builder.query({
 			query: () => "/products",
 		}),
+		getSingleProductData: builder.query({
+			query: (id) => `/products/${id}`
+		})
 	}),
 });
 
-export const { usePostUserDataMutation, useGetUserDateQuery, useGetDashboardDataQuery } = dummyjsonApiSlice;
+export const { usePostUserDataMutation, useGetUserDateQuery, useGetProductsDataQuery, useGetSingleProductDataQuery } = dummyjsonApiSlice;
