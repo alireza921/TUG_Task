@@ -32,7 +32,7 @@ const TUGReviewItem = (props: TUGReviewItemProps) =>
 				>
 					{
 						props.product.reviews.map((review, index: number) => (
-							<TUGNumericCard key={`resultItem_${index}`} review={review} />
+							<TUGNumericCard key={`TUGReviewItem_${index}`} review={review} />
 						))
 					}
 				</Box>
