@@ -10,7 +10,7 @@ interface TUGTableProps
 const TUGTable = (props: TUGTableProps) =>
 {
 	const columns: GridColDef[] = [
-		{ field: 'no', headerName: 'No.', width: 20 },
+		{ field: 'no', headerName: 'No.', width: 50 },
 		{ field: 'title', headerName: 'Title', width: 250 },
 		{ field: 'category', headerName: 'Category', width: 90 },
 		{ field: 'price', headerName: 'Price', width: 130, },

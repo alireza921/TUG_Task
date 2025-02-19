@@ -40,7 +40,7 @@ const DashboardPage: FunctionComponent<DashboardPageProps> = () =>
 					<TUGChart data={productData.products} />
 					<TUGReminder title="Reminder" remindersData={productData.products} />
 				</Stack>
-				<Box>
+				<Box sx={{ mt: 4 }}>
 					<TUGTable productsData={productData.products} />
 				</Box>
 			</Container>
